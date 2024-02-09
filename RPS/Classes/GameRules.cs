@@ -11,7 +11,8 @@ namespace RPS.Classes
     {
         public readonly string[] gameValues;
         public readonly int valuesAmount;
-        public GameRules(string[] GameValues) 
+        private string[] GAME_RESULTS = { "Draw", "Win", "Lose" };
+        public GameRules(string[] GameValues)
         {
             argsPrecheck(GameValues);
             gameValues = GameValues;
@@ -42,16 +43,13 @@ namespace RPS.Classes
         {
             return gameValues[idVal];
         }
-        public string GetGameResult(int playerMove, int pcMove)
+        public string GetGameResult(int playerMove, int computerMove)
         {
-            if (playerMove < 0 || pcMove < 0 || playerMove >= valuesAmount || pcMove >= valuesAmount)
+            if (playerMove < 0 || computerMove < 0 || playerMove >= valuesAmount || computerMove >= valuesAmount)
                 throw new ArgumentException("Values must be positive and less than valuesAmount!");
-            if (playerMove == pcMove)
-                return "Draw";
             int dist = valuesAmount / 2;
-            if ((playerMove - pcMove + valuesAmount) % valuesAmount <= dist)
-                return "Win";
-            return "Lose";
+            int result = (playerMove - computerMove + valuesAmount) % valuesAmount - dist+1;
+            return GAME_RESULTS[result];
         }
         public void DrawHelpTable()
         {

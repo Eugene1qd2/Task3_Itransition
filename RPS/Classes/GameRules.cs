@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,23 @@ namespace RPS.Classes
         public readonly int valuesAmount;
         public GameRules(string[] GameValues) 
         {
+            argsPrecheck(GameValues);
             gameValues = GameValues;
             valuesAmount = gameValues.Length;
+        }
+        private static void argsPrecheck(string[] args)
+        {
+            if (args.Length <= 1 || args.Length % 2 == 0)
+            {
+                throw new ArgumentException("Wrong params amount inputed!");
+            }
+            foreach (string arg in args)
+            {
+                if (args.Count(x => x == arg) > 1)
+                {
+                    throw new ArgumentException("Arguments should not be repeated!");
+                }
+            }
         }
         public void ShowGameValues()
         {

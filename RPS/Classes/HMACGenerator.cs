@@ -11,25 +11,25 @@ namespace RPS.Classes
     {
         public byte[] HMAC { get; private set; }
         public byte[] HMAC_KEY { get; private set; }
-        private string secretKey;
+        private string _secretKey;
         public HMACGenerator(int keySize=32)
         {
             HMAC = new byte[keySize];
             HMAC_KEY = GenerateKey(keySize);
-            secretKey = HashEncode(HMAC_KEY);
+            _secretKey = HashEncode(HMAC_KEY);
         }
         public string GenerateHMAC(string message)
         {
-            using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey)))
+            using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_secretKey)))
             {
                 HMAC = hmac.ComputeHash(Encoding.UTF8.GetBytes(message));
-                return BitConverter.ToString(HMAC).Replace("-", "");
+                return HashEncode(HMAC);
             }
         }
 
         public string GetHMACKey()
         {
-            return secretKey;
+            return _secretKey;
         }
 
         private static byte[] GenerateKey(int size)

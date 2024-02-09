@@ -16,19 +16,6 @@ namespace RPS
     {
         static void Main(string[] args)
         {
-            if (args.Length  <=1 || args.Length%2==0) {
-                Console.WriteLine("Wrong params amount");
-                return;
-            }
-            foreach (string arg in args)
-            {
-                if (args.Count(x=>x==arg)>1)
-                {
-                    Console.WriteLine("Params cant be repeated");
-                    return;
-                }
-            }
-
             GameManager gameManager = new GameManager(args);
             gameManager.ShowHMAC();
             gameManager.ShowMenu();
